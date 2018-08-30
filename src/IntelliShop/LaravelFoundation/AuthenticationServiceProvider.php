@@ -10,10 +10,10 @@ use Hyn\Tenancy\Database\Connection;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Console\PassportInstallCommand;
-use IntelliShop\LaravelFoundation\Application\Entities\AuthCode;
-use IntelliShop\LaravelFoundation\Application\Entities\Client;
-use IntelliShop\LaravelFoundation\Application\Entities\PersonalAccessClient;
-use IntelliShop\LaravelFoundation\Application\Entities\Token;
+use IntelliShop\LaravelFoundation\Application\Entities\Passport\AuthCode;
+use IntelliShop\LaravelFoundation\Application\Entities\Passport\Client;
+use IntelliShop\LaravelFoundation\Application\Entities\Passport\PersonalAccessClient;
+use IntelliShop\LaravelFoundation\Application\Entities\Passport\Token;
 use Laravel\Passport\Passport;
 
 final class AuthenticationServiceProvider extends ServiceProvider

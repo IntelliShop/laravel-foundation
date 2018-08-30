@@ -6,8 +6,8 @@ namespace IntelliShop\LaravelFoundation;
 
 use Assert\Assertion;
 use Illuminate\Support\ServiceProvider;
-use IntelliShop\LaravelFoundation\Application\Entities\Permission;
-use IntelliShop\LaravelFoundation\Application\Entities\Role;
+use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
+use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 
 final class PermissionServiceProvider extends ServiceProvider
 {
