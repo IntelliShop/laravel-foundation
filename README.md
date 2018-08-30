@@ -10,6 +10,12 @@ To be more specific, following extensions are bundled:
 - hyn/multi-tenant
 - spatie/laravel-permission
 
+# Features
+
+- separated tenancy and tenant databases (incl. tenant-scope migrations)
+- host-level language and timezone settings
+- automatic locale detection and injection into URL
+
 # Current status
 
 The extension is being published, hence installation instructions are not yet provided.
