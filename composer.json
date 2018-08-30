@@ -14,9 +14,9 @@
   ],
 
   "config": {
-      "optimize-autoloader":    true,
-      "classmap-authoritative": true,
-      "apcu-autoloader":        true
+      "optimize-autoloader":          true,
+      "classmap-authoritative":       true,
+      "apcu-autoloader":              true
   },
 
   "require": {
