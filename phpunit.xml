@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    colors="true"
+    verbose="true"
+    failOnRisky="true"
+    beStrictAboutChangesToGlobalState="true"
+    beStrictAboutOutputDuringTests="true"
+    bootstrap="vendor/autoload.php"
+>
+    <!-- test suits - currently just one -->
+    <testsuites>
+        <testsuite name="package-test">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- classes which tests coverage we are measuring -->
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory>src</directory>
+            <!-- those are not testable by pure PhpUnit; revisit when adding integration tests -->
+            <exclude>
+                <directory suffix="ServiceProvider.php">src/*</directory>
+                <directory suffix="Controller.php">src/*</directory>
+                <directory suffix="Command.php">src/*</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
