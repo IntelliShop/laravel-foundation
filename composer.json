@@ -49,6 +49,12 @@
           "IntelliShop\\": "src"
       }
   },
+  "autoload-dev": {
+      "psr-4": {
+          "IntelliShop\\": ["src", "tests"]
+      }
+  },
+
   "extra": {
       "laravel": {
           "providers": [
