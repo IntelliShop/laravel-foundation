@@ -15,6 +15,7 @@ To be more specific, following extensions are bundled:
 - separated tenancy and tenant databases (incl. tenant-scope migrations)
 - host-level language and timezone settings
 - automatic locale detection and injection into URL
+- passport and permissions extensions configured to work in tenant scope
 
 # Current status
 
