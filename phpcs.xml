@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+    <description>IS8 coding standard, complying and extending PHP CS Fixer rules.</description>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>*/Standards/*/Tests/*\.(inc|css|js)</exclude-pattern>
+
+    <arg name="basepath" value="."  />
+    <arg name="colors"              />
+    <arg name="parallel" value="75" />
+    <arg value="nps"                />
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+    <rule ref="PSR1" />
+    <rule ref="PSR2" />
+    <rule ref="PSR12"/>
+
+    <!-- do now, create a ticket or just forget it. -->
+    <rule ref="Generic.Commenting.Todo"/>
+
+    <!-- arrays formatting requirements -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <!-- CS Fixer compatibility -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned"      />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeyNotAligned"        />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned" />
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceAfter"       />
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceBefore"      />
+        <!-- this one is not aware of array destruction constructs -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed" />
+    </rule>
+</ruleset>

@@ -1,0 +1,36 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in([__DIR__ . '/../src', __DIR__ . '/../tests']);
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@Symfony'                           => true,
+        '@Symfony:risky'                     => true,
+        '@PHP71Migration'                    => true,
+        '@PHP71Migration:risky'              => true,
+
+        'header_comment'                     => ['header' => ''],
+        'declare_strict_types'               => true,
+        'array_syntax'                       => array('syntax' => 'short'),
+        'yoda_style'                         => false,
+        'binary_operator_spaces'             => array('operators' => ['=>' => null]),
+
+        'strict_comparison'                  => true,
+        'strict_param'                       => true,
+        'dir_constant'                       => true,
+        'php_unit_strict'                    => true,
+        'php_unit_no_expectation_annotation' => true,
+        'php_unit_ordered_covers'            => true,
+        'is_null'                            => true,
+        'function_to_constant'               => true,
+        'ordered_imports'                    => true,
+        'not_operator_with_successor_space'  => true,
+        'combine_consecutive_issets'         => true,
+        'combine_consecutive_unsets'         => true,
+        'escape_implicit_backslashes'        => true,
+        'no_superfluous_elseif'              => true,
+        'no_useless_else'                    => true,
+    ])
+    ->setFinder($finder);
