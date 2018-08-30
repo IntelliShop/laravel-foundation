@@ -1,0 +1,15 @@
+{
+    "timeout": 1,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "mutators": {
+        "@default":             true,
+        "NotIdenticalNotEqual": false,
+        "IdenticalEqual":       false,
+        "MethodCallRemoval":    false,
+        "FunctionCallRemoval":  false
+    }
+}

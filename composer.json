@@ -1,6 +1,5 @@
 {
   "name":        "intellishop/laravel-foundation",
-  "version":     "0.0.1",
   "description": "Integrates multi-tenant, localization, permissions and more laravel extensions to work out of the box.",
   "license":     "MIT",
   "type":        "module",
@@ -89,10 +88,26 @@
       "check": [
           "@php composer.phar dump-autoload",
           "@check-style",
-          "@test"
+          "@test",
+          "@check-dependencies"
       ],
-      "check-style":        [],
-      "check-dependencies": [],
-      "test":               []
+      "check-style": [
+          "@php php-cs-fixer.phar fix --quiet --dry-run --config=.ci/.php-cs-fixer",
+          "vendor/bin/phpcf       --target=7.2 src",
+          "vendor/bin/phpmd       src xml .ci/.php-md-sources",
+          "vendor/bin/phpmd       tests xml .ci/.php-md-tests",
+          "vendor/bin/phpcs       -q --no-colors --ignore-annotations --report-full"
+      ],
+      "check-dependencies": [
+          "@php composer-require-checker.phar check",
+          "vendor/bin/dependency-guard"
+      ],
+      "test": [
+          "@php composer.phar        validate --strict",
+          "vendor/bin/phpstan        analyze --no-progress --level=7 --configuration=.ci/.php-stan.neon src tests",
+          "vendor/bin/phpunit        --strict-coverage --coverage-html=build/coverage --coverage-clover=build/clover.xml",
+          "vendor/bin/coverage-check build/clover.xml 100",
+          "@php infection.phar       --threads=8 --only-covered --min-covered-msi=100 --quiet --configuration=.infection-php"
+      ]
   }
 }

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<ruleset name="cleancode-customized"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
+>
+    <description />
+
+    <rule ref="rulesets/cleancode.xml">
+        <exclude name="StaticAccess"/>
+    </rule>
+
+    <rule ref="rulesets/cleancode.xml/StaticAccess">
+        <properties>
+            <property name="exceptions">
+                <value>
+                    \Assert\Assertion,
+                    \ComposerLocator,
+                    \Illuminate\Support\Facades\Schema,
+                    \Illuminate\Support\Facades\App,
+                    \Laravel\Passport\Passport
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/design.xml">
+        <exclude name="DepthOfInheritance"    />
+        <exclude name="CouplingBetweenObjects"/>
+    </rule>
+
+    <!-- promote composition over inheritance -->
+    <rule ref="rulesets/design.xml/DepthOfInheritance">
+        <properties>
+            <property name="minimum">
+                <value>4</value>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- due to aggregation-centric architecture we'll get more dependencies -->
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="minimum">
+                <value>14</value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/codesize.xml">
+        <exclude name="ExcessiveParameterList"/>
+        <exclude name="CyclomaticComplexity"  />
+    </rule>
+
+    <!-- promote lower complexity -->
+    <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
+        <properties>
+            <property name="reportLevel">
+                <value>7</value>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- promote clean APIs -->
+    <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+        <properties>
+            <property name="minimum">
+                <value>4</value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/controversial.xml"/>
+
+    <rule ref="rulesets/naming.xml">
+        <exclude name="ShortVariable"  />
+        <exclude name="ShortMethodName"/>
+    </rule>
+
+    <!-- customize naming limitations -->
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="minimum">
+                <value>2</value>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortMethodName">
+        <properties>
+            <property name="minimum">
+                <value>2</value>
+            </property>
+        </properties>
+    </rule>
+
+</ruleset>
