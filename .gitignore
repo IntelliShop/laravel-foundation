@@ -4,3 +4,7 @@
 /.php_cs.cache
 /composer.lock
 /composer.phar
+/composer-require-checker.phar
+/php-cs-fixer.phar
+/phpunit.phar
+/infection.phar

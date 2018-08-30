@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="php-cs-fixer" version="~2.12" installed="2.13.0" location="php-cs-fixer.phar" copy="true"/>
+  <phar name="composer-require-checker" version="~1.0" installed="1.0.0" location="composer-require-checker.phar" copy="true"/>
+  <phar name="phpunit" version="~7.2" installed="7.3.2" location="phpunit.phar" copy="true"/>
+  <phar name="infection" version="~0.10" installed="0.10.1" location="infection.phar" copy="true"/>
+</phive>
