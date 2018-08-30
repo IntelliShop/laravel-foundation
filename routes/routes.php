@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Laravel\FrameworkCustomization\Application\Controllers\AuthorizationRestController;
+use IntelliShop\LaravelFoundation\Application\Controllers\AuthorizationRestController;
 use Laravel\Passport\RouteRegistrar;
 
 /* extracted from \Laravel\Passport\Passport::routes */
