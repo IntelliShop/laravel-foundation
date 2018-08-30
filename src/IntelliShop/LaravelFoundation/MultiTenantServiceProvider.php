@@ -16,11 +16,11 @@ final class MultiTenantServiceProvider extends ServiceProvider
 
         /** @var \Illuminate\Foundation\Application $application */
         $application = $this->app;
-        $configuration = $application->make('config');
 
         /* sets internationalization defaults as per hostname configuration */
         $hostname = $application->make(Environment::class)->hostname();
         if ($hostname !== null) {
+            $configuration = $application->make('config');
             $configuration->set([
                 'app.timezone' => $hostname->timezone ?: $configuration->get('app.timezone'),
                 'app.locale'   => $locale = $hostname->locale ?: $configuration->get('app.locale'),
