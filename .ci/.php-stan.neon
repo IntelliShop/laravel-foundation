@@ -8,3 +8,6 @@ parameters:
     excludes_analyse:
         - database/*
         - routes/*
+    ignoreErrors:
+        # PhpStan doesn't respect PhpUnit official guidelines
+        - '#static method PHPUnit.Framework#'
