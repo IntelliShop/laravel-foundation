@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace IntelliShop\LaravelFoundation;
 
 use Assert\Assertion;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 
 final class PermissionServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function boot(Config $configuration): void
     {
-        $configuration = $this->app->make('config');
         $configuration->set('permission.models.permission', Permission::class);
         $configuration->set('permission.models.role', Role::class);
 

@@ -6,28 +6,25 @@ namespace IntelliShop\LaravelFoundation;
 
 use Assert\Assertion;
 use Hyn\Tenancy\Environment;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 final class MultiTenantServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function boot(Config $configuration, Environment $environment): void
     {
         Assertion::file(($path = __DIR__.'/../../..').'/composer.json');
 
-        /** @var \Illuminate\Foundation\Application $application */
-        $application = $this->app;
-
         /* sets internationalization defaults as per hostname configuration */
-        $hostname = $application->make(Environment::class)->hostname();
+        $hostname = $environment->hostname();
         if ($hostname !== null) {
-            $configuration = $application->make('config');
             $configuration->set([
                 'app.timezone' => $hostname->timezone ?: $configuration->get('app.timezone'),
                 'app.locale'   => $locale = $hostname->locale ?: $configuration->get('app.locale'),
             ]);
         }
 
-        if ($application->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom($path.'/database/migrations');
         }
     }

@@ -32,7 +32,7 @@ final class MultiTenantServiceProviderTest extends TestCase
                 return $what;
             });
         $configuration
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertSame('app.timezone', $settings['app.timezone']);
@@ -48,7 +48,7 @@ final class MultiTenantServiceProviderTest extends TestCase
                 return $what === 'config' ? $configuration : $environment;
             });
 
-        (new MultiTenantServiceProvider($application))->boot();
+        (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }
 
     /**
@@ -66,7 +66,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $configuration = $this->getMockBuilder(ContainerInterface::class)->setMethods(['get', 'set', 'has'])->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertSame('CET', $settings['app.timezone']);
@@ -82,6 +82,6 @@ final class MultiTenantServiceProviderTest extends TestCase
                 return $what === 'config' ? $configuration : $environment;
             });
 
-        (new MultiTenantServiceProvider($application))->boot();
+        (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }
 }
