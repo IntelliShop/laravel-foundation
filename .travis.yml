@@ -23,5 +23,6 @@ script:
   - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x4AA394086372C20A
   - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x8E730BA25823D8B5
   - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xD2CCAC42F6295E7D
+  - gpg --keyserver hkps.pool.sks-keyservers.net  --recv-keys 0x9B2D5D79
   - php phive.phar install
   - php composer.phar check
