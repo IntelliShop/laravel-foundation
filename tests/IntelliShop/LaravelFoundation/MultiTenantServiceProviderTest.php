@@ -25,14 +25,12 @@ final class MultiTenantServiceProviderTest extends TestCase
 
         $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration
-            ->expects($this->exactly(2))
-            ->method('get')
+            ->expects($this->exactly(2))->method('get')
             ->willReturn(function (string $what): string {
                 return $what;
             });
         $configuration
-            ->expects($this->exactly(2))
-            ->method('set')
+            ->expects($this->exactly(2))->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertArraySubset([Hostname::class, 'app.timezone', 'app.locale'], $settings);
             });
@@ -59,8 +57,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
-            ->expects($this->exactly(2))
-            ->method('set')
+            ->expects($this->exactly(2))->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertSame('CET', $settings['app.timezone']);
                 $this->assertSame('de', $settings['app.locale']);

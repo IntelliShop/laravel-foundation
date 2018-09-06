@@ -20,8 +20,7 @@ final class PermissionServiceProviderTest extends TestCase
         $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
-            ->expects($this->once())
-            ->method('set')
+            ->expects($this->once())->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertArraySubset([Permission::class, Role::class], $settings);
             });

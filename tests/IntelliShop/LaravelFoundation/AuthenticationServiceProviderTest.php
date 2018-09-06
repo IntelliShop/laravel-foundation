@@ -46,14 +46,12 @@ final class AuthenticationServiceProviderTest extends TestCase
     {
         $application = $this->getMockBuilder(Application::class)->disableOriginalConstructor()->getMock();
         $application
-            ->expects($this->exactly(2))
-            ->method('make')
+            ->expects($this->exactly(2))->method('make')
             ->willReturnCallback(function (string $what): object {
                 return $this->getMockBuilder($what)->disableOriginalConstructor()->getMock();
             });
         $application
-            ->expects($this->once())
-            ->method('singleton')
+            ->expects($this->once())->method('singleton')
             ->willReturnCallback(function (string $what, \Closure $factory) use ($application): object {
                 $this->assertSame($what, PassportInstallCommand::class);
 

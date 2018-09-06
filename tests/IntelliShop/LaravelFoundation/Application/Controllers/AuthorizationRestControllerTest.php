@@ -32,8 +32,7 @@ final class AuthorizationRestControllerTest extends TestCase
         $attemptResult = true;
         $guard = $this->getMockBuilder(StatefulGuard::class)->getMock();
         $guard
-            ->expects($this->exactly(2))
-            ->method('attempt')
+            ->expects($this->exactly(2))->method('attempt')
             ->willReturnCallback(function (array $credentials) use (&$attemptResult): bool {
                 $this->assertSame(['email' => null, 'password' => null], $credentials);
                 $result = $attemptResult;
