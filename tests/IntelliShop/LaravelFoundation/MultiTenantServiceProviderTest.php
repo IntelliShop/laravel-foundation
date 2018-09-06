@@ -40,6 +40,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $application = $this->getMockBuilder(Application::class)->disableOriginalConstructor()->getMock();
         $application->expects($this->never())->method('setLocale');
         $application->expects($this->never())->method('make');
+        $application->expects($this->once())->method('runningInConsole')->willReturn(true);
 
         (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }
@@ -68,6 +69,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $application = $this->getMockBuilder(Application::class)->disableOriginalConstructor()->getMock();
         $application->expects($this->never())->method('setLocale');
         $application->expects($this->never())->method('make');
+        $application->expects($this->once())->method('runningInConsole')->willReturn(false);
 
         (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }
