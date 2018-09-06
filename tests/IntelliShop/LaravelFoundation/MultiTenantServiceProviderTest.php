@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace IntelliShop\LaravelFoundation;
 
-use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Environment;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Config;
+use IntelliShop\LaravelFoundation\Application\Entities\Hostname;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 final class MultiTenantServiceProviderTest extends TestCase
 {
@@ -17,14 +17,13 @@ final class MultiTenantServiceProviderTest extends TestCase
      */
     public function testInternationalizationFallback(): void
     {
-        /** @var \stdClass $hostname */
-        $hostname = $this->getMockBuilder(Hostname::class)->getMock();
+        $hostname = $this->getMockBuilder(Hostname::class)->disableOriginalConstructor()->getMock();
         [$hostname->timezone, $hostname->locale] = [null, null];
 
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(ContainerInterface::class)->setMethods(['get', 'set', 'has'])->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set', 'has'])->getMock();
         $configuration
             ->expects($this->exactly(2))
             ->method('get')
@@ -32,21 +31,15 @@ final class MultiTenantServiceProviderTest extends TestCase
                 return $what;
             });
         $configuration
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('set')
             ->willReturn(function (array $settings): void {
-                $this->assertSame('app.timezone', $settings['app.timezone']);
-                $this->assertSame('app.locale', $settings['app.locale']);
+                $this->assertArraySubset([Hostname::class, 'app.timezone', 'app.locale'], $settings);
             });
 
         $application = $this->getMockBuilder(Application::class)->disableOriginalConstructor()->getMock();
         $application->expects($this->never())->method('setLocale');
-        $application
-            ->expects($this->exactly(2))
-            ->method('make')
-            ->willReturnCallback(function (string $what) use ($configuration, $environment): object {
-                return $what === 'config' ? $configuration : $environment;
-            });
+        $application->expects($this->never())->method('make');
 
         (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }
@@ -56,17 +49,16 @@ final class MultiTenantServiceProviderTest extends TestCase
      */
     public function testInternationalizationRewrite(): void
     {
-        /** @var \stdClass $hostname */
-        $hostname = $this->getMockBuilder(Hostname::class)->getMock();
+        $hostname = $this->getMockBuilder(Hostname::class)->disableOriginalConstructor()->getMock();
         [$hostname->timezone, $hostname->locale] = ['CET', 'de'];
 
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(ContainerInterface::class)->setMethods(['get', 'set', 'has'])->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set', 'has'])->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('set')
             ->willReturn(function (array $settings): void {
                 $this->assertSame('CET', $settings['app.timezone']);
@@ -75,12 +67,7 @@ final class MultiTenantServiceProviderTest extends TestCase
 
         $application = $this->getMockBuilder(Application::class)->disableOriginalConstructor()->getMock();
         $application->expects($this->never())->method('setLocale');
-        $application
-            ->expects($this->exactly(2))
-            ->method('make')
-            ->willReturnCallback(function (string $what) use ($configuration, $environment): object {
-                return $what === 'config' ? $configuration : $environment;
-            });
+        $application->expects($this->never())->method('make');
 
         (new MultiTenantServiceProvider($application))->boot($configuration, $environment);
     }

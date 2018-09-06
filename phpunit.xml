@@ -20,7 +20,6 @@
             <directory>src</directory>
             <!-- those are not testable by pure PhpUnit; revisit when adding integration tests -->
             <exclude>
-                <directory suffix="ServiceProvider.php">src/*</directory>
                 <directory suffix="Controller.php">src/*</directory>
                 <directory suffix="Command.php">src/*</directory>
             </exclude>
