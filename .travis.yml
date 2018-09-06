@@ -18,6 +18,10 @@ matrix:
 
 script:
   # Fetch gpg keys for phive, php-cs-fixer, php-coveralls, phpunit, phpstan, composer-require-checker
-  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x9D8A98B29B2D5D79 0xE82B2FB314E9906E 0x4AA394086372C20A 0x8E730BA25823D8B5 0xD2CCAC42F6295E7D
+  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x9D8A98B29B2D5D79
+  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xE82B2FB314E9906E
+  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x4AA394086372C20A
+  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x8E730BA25823D8B5
+  - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xD2CCAC42F6295E7D
   - php phive.phar install
   - php composer.phar check
