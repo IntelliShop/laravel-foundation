@@ -24,6 +24,5 @@ script:
   - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x8E730BA25823D8B5
   - gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xD2CCAC42F6295E7D
   - printf 'y\ny\ny\ny\ny\n' | php phive.phar update
-  - ls -la
-  - ls -la ./tools
+  - chmod +x ./vendor/bin/*
   - php composer.phar check
