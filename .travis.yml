@@ -1,0 +1,20 @@
+sudo: false
+
+notifications:
+  email: false
+
+language: php
+
+php:
+  - 7.2
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.2
+
+script:
+  - php composer.phar check
