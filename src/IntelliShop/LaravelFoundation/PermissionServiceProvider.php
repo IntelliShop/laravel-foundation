@@ -10,19 +10,24 @@ use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 
-final class PermissionServiceProvider extends ServiceProvider
+class PermissionServiceProvider extends ServiceProvider
 {
     public function boot(Config $configuration): void
     {
-        $configuration->set('permission.models.permission', Permission::class);
-        $configuration->set('permission.models.role', Role::class);
+        Assertion::file(($path = __DIR__.'/../../..').'/composer.json');
+        $configuration->set([
+            'permission.models.permission' => Permission::class,
+            'permission.models.role'       => Role::class,
+        ]);
 
         if ($this->app->runningInConsole()) {
             /* spatie/laravel-permission migrations are needed in the tenant scope */
-            Assertion::file(($path = __DIR__.'/../../..').'/composer.json');
-            Assertion::file(($path .= '/../../spatie/laravel-permission').'/composer.json');
+            $originalPackagePath = $path.'/../../spatie/laravel-permission';
             $target = sprintf('database/migrations/tenant/%s_create_permission_tables.php', date('Y_m_d_His'));
-            $this->publishes([$path.'/database/migrations/create_permission_tables.php.stub' => $target], 'tenant-migrations');
+            $this->publishes(
+                [$originalPackagePath.'/database/migrations/create_permission_tables.php.stub' => $target],
+                'tenant-migrations'
+            );
         }
     }
 }

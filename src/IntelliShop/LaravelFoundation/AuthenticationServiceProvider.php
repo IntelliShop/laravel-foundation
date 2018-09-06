@@ -30,9 +30,9 @@ class AuthenticationServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             /* laravel/passport migrations are needed in the tenant scope */
-            $passportManifest = $path.'/../../laravel/passport/composer.json';
+            $originalPackagePath = $path.'/../../laravel/passport';
             $this->publishes(
-                [$passportManifest.'/database/migrations/' => 'database/migrations/tenant/'],
+                [$originalPackagePath.'/database/migrations/' => 'database/migrations/tenant/'],
                 'tenant-migrations'
             );
         }
