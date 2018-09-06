@@ -11,5 +11,8 @@
         "IdenticalEqual":       false,
         "MethodCallRemoval":    false,
         "FunctionCallRemoval":  false
+    },
+    "logs": {
+        "text": "build/infection-php.log"
     }
 }

@@ -24,12 +24,23 @@ final class AuthorizationRestControllerTest extends TestCase
         $configuration->expects($this->once())->method('get')->willReturn('...');
 
         $token = $this->getMockBuilder(PersonalAccessTokenResult::class)->disableOriginalConstructor()->getMock();
+        $token->accessToken = '#token';
 
         $user = $this->getMockBuilder(User::class)->disableOriginalConstructor()->getMock();
         $user->expects($this->once())->method('createToken')->willReturn($token);
 
+        $attemptResult = true;
         $guard = $this->getMockBuilder(StatefulGuard::class)->getMock();
-        $guard->expects($this->exactly(2))->method('attempt')->willReturnOnConsecutiveCalls(true, false);
+        $guard
+            ->expects($this->exactly(2))
+            ->method('attempt')
+            ->willReturnCallback(function (array $credentials) use (&$attemptResult): bool {
+                $this->assertSame(['email' => null, 'password' => null], $credentials);
+                $result = $attemptResult;
+                $attemptResult = ! $attemptResult;
+
+                return $result;
+            });
         $guard->expects($this->once())->method('user')->willReturn($user);
 
         $manager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
@@ -38,7 +49,13 @@ final class AuthorizationRestControllerTest extends TestCase
         $request = $this->getMockBuilder(Request::class)->getMock();
 
         $controller = new AuthorizationRestController();
-        $this->assertSame(200, $controller->authorize($request, $manager, $configuration)->getStatusCode());
-        $this->assertSame(401, $controller->authorize($request, $manager, $configuration)->getStatusCode());
+
+        $positiveResponse = $controller->authorize($request, $manager, $configuration);
+        $this->assertSame(200, $positiveResponse->getStatusCode());
+        $this->assertSame(['success' => ['token' => '#token']], $positiveResponse->getData(true));
+
+        $negativeResponse = $controller->authorize($request, $manager, $configuration);
+        $this->assertSame(401, $negativeResponse->getStatusCode());
+        $this->assertSame(['error' => 'Unauthorised'], $negativeResponse->getData(true));
     }
 }

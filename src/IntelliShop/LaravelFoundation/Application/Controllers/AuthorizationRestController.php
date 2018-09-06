@@ -8,11 +8,10 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use Symfony\Component\HttpFoundation\Response;
 
 final class AuthorizationRestController
 {
-    public function authorize(Request $request, AuthManager $auth, Config $configuration): Response
+    public function authorize(Request $request, AuthManager $auth, Config $configuration): JsonResponse
     {
         /** @var \Illuminate\Contracts\Auth\StatefulGuard $guard */
         $guard = $auth->guard();
