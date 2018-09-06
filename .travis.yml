@@ -11,7 +11,7 @@ php:
 cache:
   directories:
     - $HOME/.composer/cache
-    - ./tools
+    - $HOME/.phive
 
 matrix:
   include:
