@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $name
  * @property string $email
  */
-final class User extends Authenticatable
+class User extends Authenticatable
 {
     use HasRoles, UsesTenantConnection, HasApiTokens, Notifiable;
 

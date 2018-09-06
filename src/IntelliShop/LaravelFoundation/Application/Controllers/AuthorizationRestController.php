@@ -7,11 +7,12 @@ namespace IntelliShop\LaravelFoundation\Application\Controllers;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Response;
 
 final class AuthorizationRestController
 {
-    public function authorize(Request $request, AuthManager $auth): Response
+    public function authorize(Request $request, AuthManager $auth, Config $configuration): Response
     {
         /** @var \Illuminate\Contracts\Auth\StatefulGuard $guard */
         $guard = $auth->guard();
@@ -19,7 +20,7 @@ final class AuthorizationRestController
             /** @var \IntelliShop\LaravelFoundation\Application\Entities\User|null $user */
             $user = $guard->user();
             if ($user !== null) {
-                $token = $user->createToken(config('app.name'))->accessToken;
+                $token = $user->createToken($configuration->get('app.name'))->accessToken;
 
                 return new JsonResponse(['success' => ['token' => $token]], 200);
             }
