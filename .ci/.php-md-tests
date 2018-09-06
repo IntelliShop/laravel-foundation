@@ -15,7 +15,8 @@
         <properties>
             <property name="exceptions">
                 <value>
-                    \org\bovigo\vfs\vfsStream
+                    \org\bovigo\vfs\vfsStream,
+                    \Laravel\Passport\Passport
                 </value>
             </property>
         </properties>

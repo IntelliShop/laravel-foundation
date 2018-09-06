@@ -16,7 +16,7 @@ use IntelliShop\LaravelFoundation\Application\Entities\Passport\PersonalAccessCl
 use IntelliShop\LaravelFoundation\Application\Entities\Passport\Token;
 use Laravel\Passport\Passport;
 
-final class AuthenticationServiceProvider extends ServiceProvider
+class AuthenticationServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
@@ -30,8 +30,11 @@ final class AuthenticationServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             /* laravel/passport migrations are needed in the tenant scope */
-            Assertion::file(($path .= '/../../laravel/passport').'/composer.json');
-            $this->publishes([$path.'/database/migrations/' => 'database/migrations/tenant/'], 'tenant-migrations');
+            $passportManifest = $path.'/../../laravel/passport/composer.json';
+            $this->publishes(
+                [$passportManifest.'/database/migrations/' => 'database/migrations/tenant/'],
+                'tenant-migrations'
+            );
         }
     }
 
