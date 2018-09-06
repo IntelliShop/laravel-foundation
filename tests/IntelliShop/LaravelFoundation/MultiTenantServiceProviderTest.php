@@ -23,7 +23,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set', 'has'])->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration
             ->expects($this->exactly(2))
             ->method('get')
@@ -56,7 +56,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set', 'has'])->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
             ->expects($this->exactly(2))

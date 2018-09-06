@@ -17,7 +17,8 @@ final class PermissionServiceProviderTest extends TestCase
      */
     public function testBoot(): void
     {
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['set'])->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration->expects($this->never())->method('get');
         $configuration
             ->expects($this->once())
             ->method('set')
