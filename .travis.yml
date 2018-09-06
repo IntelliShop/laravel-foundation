@@ -17,4 +17,5 @@ matrix:
     - php: 7.2
 
 script:
+  - php phive.phar install
   - php composer.phar check
