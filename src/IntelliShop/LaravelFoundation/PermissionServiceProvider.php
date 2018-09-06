@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 
-class PermissionServiceProvider extends ServiceProvider
+final class PermissionServiceProvider extends ServiceProvider
 {
     public function boot(Config $configuration): void
     {

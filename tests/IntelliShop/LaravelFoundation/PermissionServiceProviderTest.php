@@ -29,13 +29,6 @@ final class PermissionServiceProviderTest extends TestCase
         $application->expects($this->never())->method('make');
         $application->expects($this->once())->method('runningInConsole')->willReturn(true);
 
-        $provider = $this
-            ->getMockBuilder(PermissionServiceProvider::class)
-            ->setConstructorArgs([$application])
-            ->setMethods(['publishes'])
-            ->getMock();
-        $provider->expects($this->once())->method('publishes');
-
-        $provider->boot($configuration);
+        (new PermissionServiceProvider($application))->boot($configuration);
     }
 }
