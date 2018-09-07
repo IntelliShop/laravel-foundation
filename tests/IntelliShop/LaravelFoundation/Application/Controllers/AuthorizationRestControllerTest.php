@@ -17,7 +17,7 @@ final class AuthorizationRestControllerTest extends TestCase
     /**
      * @covers \IntelliShop\LaravelFoundation\Application\Controllers\AuthorizationRestController::<public>
      */
-    public function testAuthorize(): void
+    public function testAuthorizeSuccess(): void
     {
         $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
         $configuration->expects($this->never())->method('set');
@@ -29,31 +29,43 @@ final class AuthorizationRestControllerTest extends TestCase
         $user = $this->getMockBuilder(User::class)->disableOriginalConstructor()->getMock();
         $user->expects($this->once())->method('createToken')->willReturn($token);
 
-        $attemptResult = true;
         $guard = $this->getMockBuilder(StatefulGuard::class)->getMock();
         $guard
-            ->expects($this->exactly(2))->method('attempt')
-            ->willReturnCallback(function (array $credentials) use (&$attemptResult): bool {
-                $this->assertSame(['email' => null, 'password' => null], $credentials);
-                $result = $attemptResult;
-                $attemptResult = ! $attemptResult;
-
-                return $result;
+            ->expects($this->once())->method('attempt')
+            ->willReturnCallback(function (array $credentials): bool {
+                return $credentials === ['email' => null, 'password' => null];
             });
         $guard->expects($this->once())->method('user')->willReturn($user);
 
         $manager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
-        $manager->expects($this->exactly(2))->method('guard')->willReturn($guard);
+        $manager->expects($this->once())->method('guard')->willReturn($guard);
 
         $request = $this->getMockBuilder(Request::class)->getMock();
 
-        $controller = new AuthorizationRestController();
-
-        $positiveResponse = $controller->authorize($request, $manager, $configuration);
+        $positiveResponse = (new AuthorizationRestController())->authorize($request, $manager, $configuration);
         $this->assertSame(200, $positiveResponse->getStatusCode());
         $this->assertSame(['success' => ['token' => '#token']], $positiveResponse->getData(true));
+    }
 
-        $negativeResponse = $controller->authorize($request, $manager, $configuration);
+    /**
+     * @covers \IntelliShop\LaravelFoundation\Application\Controllers\AuthorizationRestController::<public>
+     */
+    public function testAuthorizeFailure(): void
+    {
+        $guard = $this->getMockBuilder(StatefulGuard::class)->getMock();
+        $guard->expects($this->once())->method('attempt')->willReturn(false);
+        $guard->expects($this->never())->method('user');
+
+        $manager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
+        $manager->expects($this->once())->method('guard')->willReturn($guard);
+
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration->expects($this->never())->method('set');
+        $configuration->expects($this->never())->method('get');
+
+        $request = $this->getMockBuilder(Request::class)->getMock();
+
+        $negativeResponse = (new AuthorizationRestController())->authorize($request, $manager, $configuration);
         $this->assertSame(401, $negativeResponse->getStatusCode());
         $this->assertSame(['error' => 'Unauthorised'], $negativeResponse->getData(true));
     }
