@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace IntelliShop\LaravelFoundation\Application\Controllers;
 
 use Illuminate\Auth\AuthManager;
+use Illuminate\Config\Repository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 
 final class AuthorizationRestController
 {
-    public function authorize(Request $request, AuthManager $auth, Config $configuration): JsonResponse
+    public function authorize(Request $request, AuthManager $auth, Repository $configuration): JsonResponse
     {
         /** @var \Illuminate\Contracts\Auth\StatefulGuard $guard */
         $guard = $auth->guard();

@@ -6,13 +6,13 @@ namespace IntelliShop\LaravelFoundation;
 
 use Assert\Assertion;
 use Hyn\Tenancy\Environment;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Config\Repository;
 use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Entities\Hostname;
 
 final class MultiTenantServiceProvider extends ServiceProvider
 {
-    public function boot(Config $configuration, Environment $environment): void
+    public function boot(Repository $configuration, Environment $environment): void
     {
         Assertion::file(($path = __DIR__.'/../../..').'/composer.json');
         $configuration->set(['tenancy.models.hostname' => Hostname::class]);
