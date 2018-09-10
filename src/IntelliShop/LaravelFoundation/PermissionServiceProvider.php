@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace IntelliShop\LaravelFoundation;
 
 use Assert\Assertion;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Config\Repository;
 use Illuminate\Support\ServiceProvider;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 
 final class PermissionServiceProvider extends ServiceProvider
 {
-    public function boot(Config $configuration): void
+    public function boot(Repository $configuration): void
     {
         Assertion::file(($path = __DIR__.'/../../..').'/composer.json');
         $configuration->set([

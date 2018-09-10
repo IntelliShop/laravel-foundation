@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace IntelliShop\LaravelFoundation;
 
 use Hyn\Tenancy\Environment;
+use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Config;
 use IntelliShop\LaravelFoundation\Application\Entities\Hostname;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
         $configuration
             ->expects($this->exactly(2))->method('get')
             ->willReturn(function (string $what): string {
@@ -54,7 +54,7 @@ final class MultiTenantServiceProviderTest extends TestCase
         $environment = $this->getMockBuilder(Environment::class)->disableOriginalConstructor()->getMock();
         $environment->expects($this->once())->method('hostname')->willReturn($hostname);
 
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
             ->expects($this->exactly(2))->method('set')

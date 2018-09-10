@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace IntelliShop\LaravelFoundation;
 
+use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Config;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Permission;
 use IntelliShop\LaravelFoundation\Application\Entities\Permissions\Role;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ final class PermissionServiceProviderTest extends TestCase
      */
     public function testBoot(): void
     {
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
         $configuration->expects($this->never())->method('get');
         $configuration
             ->expects($this->once())->method('set')
