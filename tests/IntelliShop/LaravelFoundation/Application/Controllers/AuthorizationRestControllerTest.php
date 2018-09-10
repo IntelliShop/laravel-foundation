@@ -19,8 +19,7 @@ final class AuthorizationRestControllerTest extends TestCase
      */
     public function testAuthorizeSuccess(): void
     {
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
-        $configuration->expects($this->never())->method('set');
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get'])->getMock();
         $configuration->expects($this->once())->method('get')->willReturn('...');
 
         $token = $this->getMockBuilder(PersonalAccessTokenResult::class)->disableOriginalConstructor()->getMock();
