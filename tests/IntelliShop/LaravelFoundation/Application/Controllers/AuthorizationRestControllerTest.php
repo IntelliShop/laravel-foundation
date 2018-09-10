@@ -58,7 +58,9 @@ final class AuthorizationRestControllerTest extends TestCase
         $manager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
         $manager->expects($this->once())->method('guard')->willReturn($guard);
 
-        $configuration = $this->getMockBuilder(Config::class)->getMock();
+        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration->expects($this->never())->method('set');
+        $configuration->expects($this->never())->method('get');
 
         $request = $this->getMockBuilder(Request::class)->getMock();
 
