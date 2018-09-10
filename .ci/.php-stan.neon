@@ -11,4 +11,3 @@ parameters:
     ignoreErrors:
         # PhpStan doesn't respect PhpUnit official guidelines
         - '#static method PHPUnit.Framework#'
-        - '#static method Illuminate.Support.Facades#'
