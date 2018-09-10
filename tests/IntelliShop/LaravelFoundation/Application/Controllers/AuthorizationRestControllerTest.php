@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace IntelliShop\LaravelFoundation\Application\Controllers;
 
 use Illuminate\Auth\AuthManager;
+use Illuminate\Config\Repository;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use IntelliShop\LaravelFoundation\Application\Entities\User;
 use Laravel\Passport\PersonalAccessTokenResult;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,8 @@ final class AuthorizationRestControllerTest extends TestCase
      */
     public function testAuthorizeSuccess(): void
     {
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get'])->getMock();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
+        $configuration->expects($this->never())->method('set');
         $configuration->expects($this->once())->method('get')->willReturn('...');
 
         $token = $this->getMockBuilder(PersonalAccessTokenResult::class)->disableOriginalConstructor()->getMock();
@@ -58,7 +59,7 @@ final class AuthorizationRestControllerTest extends TestCase
         $manager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
         $manager->expects($this->once())->method('guard')->willReturn($guard);
 
-        $configuration = $this->getMockBuilder(Config::class)->setMethods(['get', 'set'])->getMock();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
         $configuration->expects($this->never())->method('set');
         $configuration->expects($this->never())->method('get');
 
