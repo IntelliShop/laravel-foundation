@@ -51,7 +51,7 @@ LIMIT_UUID_LENGTH_32=true
 
 # Development notes
 
-Some routes might need update due to localization functionality (automatic redirect to /<locale>/<url>):
+Some routes might need update due to localization functionality (automatic redirect to /locale/url):
 
 ```php
 Route::group(
@@ -60,7 +60,7 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
     ],
     function (): void {
-        Route::get(<url>, <handler>);
+        Route::get(url, handler);
     }
 );
 ```
