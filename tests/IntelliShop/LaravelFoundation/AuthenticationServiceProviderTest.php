@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace IntelliShop\LaravelFoundation;
 
+use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use IntelliShop\LaravelFoundation\Application\Console\PassportInstallCommand;
 use IntelliShop\LaravelFoundation\Application\Entities\Passport\AuthCode;
 use IntelliShop\LaravelFoundation\Application\Entities\Passport\Client;
 use IntelliShop\LaravelFoundation\Application\Entities\Passport\PersonalAccessClient;
 use IntelliShop\LaravelFoundation\Application\Entities\Passport\Token;
+use IntelliShop\LaravelFoundation\Application\Entities\User;
 use Laravel\Passport\Passport;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +33,15 @@ final class AuthenticationServiceProviderTest extends TestCase
         $provider->expects($this->once())->method('loadRoutesFrom');
         $provider->expects($this->once())->method('publishes');
 
-        $provider->boot();
+        $configuration = $this->getMockBuilder(Repository::class)->getMock();
+        $configuration->expects($this->never())->method('get');
+        $configuration
+            ->expects($this->once())->method('set')
+            ->willReturn(function (array $settings): void {
+                $this->assertArraySubset(['passport', User::class], $settings);
+            });
+
+        $provider->boot($configuration);
 
         $this->assertSame(Token::class, Passport::tokenModel());
         $this->assertSame(Client::class, Passport::clientModel());

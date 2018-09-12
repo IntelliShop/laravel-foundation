@@ -39,27 +39,9 @@ TENANCY_USERNAME=<username>
 TENANCY_PASSWORD=<password>
 LIMIT_UUID_LENGTH_32=true
 ```
-- configure authentication settings (in config/auth.php file)
-```
-    'guards' => [
-        ...
-        
-        'api' => [
-            'driver'   => 'passport',
-            'provider' => 'users',
-        ],
-    ],
-    ...
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model'  => \IntelliShop\LaravelFoundation\Application\Entities\User::class,
-        ],
-    ],
-```
 - run `php artisan migrate` to create tenancy tables
-- register a new tenant with German time and language applied by default
-  - `insert into websites (uuid) values ('master')`
+- register a new tenant with e.g. German time and language applied by default
+  - `insert into websites (uuid) values ('master')`, assuming the inserted row id is 1
   - `insert into hostnames (fqdn, website_id, locale, timezone) values ('localhost', 1, 'de', 'CET')`
 - run `php artisan tenancy:recreate` in order to create tenants databases
   - might fail on MySQL/MariaDB due to permissions issues
