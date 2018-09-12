@@ -48,3 +48,21 @@ LIMIT_UUID_LENGTH_32=true
   - if so, check `\Hyn\Tenancy\Generators\Webserver\Database\Drivers\MariaDB::created` for queries and execute them manually
 - run `php artisan tenancy:migrate` to migrate tenants databases
 - run `php artisan tenancy:passport:install` to install passport
+
+# Development notes
+
+Some routes might need update due to localization functionality (automatic redirect to /<locale>/<url>):
+
+```php
+Route::group(
+    [
+        'prefix'     => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
+    ],
+    function (): void {
+        Route::get(<url>, <handler>);
+    }
+);
+```
+
+Also entities and migrations might need tweaks similar to ones in this package (please reference to source code).
